@@ -96,23 +96,37 @@ class Battleship:
         * And lastly, a location that has been fired on where the ship
           is completely sunk should be the letter corresponding to that 
           ship (either "C", "B", "D", "S", or "P")
+        
+          if (r,c) in self.firedAt:
+                    if self.board[r][c] == "~":
+                        currentRow.append(" ")
+                    elif self.board[r][c] in self.ships:
+                        if len(self.ships[self.board[r][c]]) == 0:
+                            currentRow.append(self.board[r][c])
+                        else:
+                            currentRow.append("*")
+                else:
+                    currentRow.append("~")
         '''
-
         hiddenBoard = []
 
         for r in range(len(self.board)):
+            currentRow = []
             for c in range(len(self.board[r])):
-                if (r, c) in self.firedAt:
-                    if self.board[r][c] == "~":
-                        hiddenBoard.append(" ")
-                    elif len(self.ships[self.board[r][c]]) == 0:
-                        hiddenBoard.append(self.board[r][c])
-                    else:
-                        hiddenBoard.append("*")
+                if (r, c) not in self.firedAt:
+                    currentRow.append("~")
                 else:
-                    hiddenBoard.append("~")
+                    if self.board[r][c] == "~":
+                        currentRow.append(" ")
+                    elif len(self.ships[self.board[r][c]]) != 0:
+                        currentRow.append("*")
+                    else:
+                        currentRow.append(self.board[r][c])
+            
+            hiddenBoard.append(currentRow)
+        
+        return hiddenBoard
 
-        return self.board
 
     def printBoard(self, hidden): 
         '''
