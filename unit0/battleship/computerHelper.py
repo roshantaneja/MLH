@@ -52,9 +52,8 @@ def placeShips(board):
              'B':[(0,0), (0,1), (0,2), (0,3)], 
              'D':[(0,0), (0,1), (0,2)], 
              'S':[(0,0), (0,1), (0,2)], 
-             'P':[(0,0), (0,1)],
-             'L':[(0,0), (1,0), (2,0), (2,1), (2,2)]}
-    allShips = ['C','B','D','S','P', 'L']
+             'P':[(0,0), (0,1)]}
+    allShips = ['C','B','D','S','P']
 
     shipsToPlace = len(allShips)
     ship = allShips.pop(random.randint(0,len(allShips)-1))
