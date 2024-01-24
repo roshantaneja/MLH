@@ -205,10 +205,32 @@ class TestBaconPath(unittest.TestCase):
         result = lab.get_bacon_path(self.db_large, actor_id)
         self.assertEqual(result, expected)
 
+class TestActorPath(unittest.TestCase):
+    def setUp(self):
+        with open('resources/nameToID.json', 'r') as f:
+            self.name_to_id = json.load(f)
+    
+    def test_16(self):
+        # Actor path, small database, length of 3 (4 actors, 3 movies)
+        input = [4724, 4724, 4724, 4724]
+        expected = ['Kevin Bacon', 'Kevin Bacon', 'Kevin Bacon', 'Kevin Bacon']
+        result = lab.actor_path(self.name_to_id, input)
+        self.assertEqual(result, expected)
+    
+    def test_17(self):
+        # Actor path, small database, length of 3 (4 actors, 3 movies)
+        input = [4724, 46866, 46867, 46866]
+        expected = ['Kevin Bacon', 'Ewa Froling', 'Jan Malmsjo', 'Ewa Froling']
+        result = lab.actor_path(self.name_to_id, input)
+        self.assertEqual(result, expected)
+
+class TestMoviePath(unittest.TestCase):
+    
+
 
 def valid_path(d, p):
     x = {frozenset(i[:-1]) for i in d}
     return all(frozenset(i) in x for i in zip(p, p[1:]))
 
 if __name__ == '__main__':
-    res = unittest.main(verbosity=3, exit=False)
+    res = unittest.main(verbosity=2, exit=False)
