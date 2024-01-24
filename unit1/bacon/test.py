@@ -6,13 +6,11 @@ import unittest
 
 TEST_DIRECTORY = os.path.dirname(__file__)
 
-fileprefix = 'unit1/bacon/'
-
 
 class TestTiny(unittest.TestCase):
     def setUp(self):
         """ Load actor/movie database """
-        filename = fileprefix + 'resources/tiny.json'
+        filename = 'resources/tiny.json'
         #filename = 'resources/large.json'
         with open(filename, 'r') as f:
             self.data = json.load(f)
@@ -21,7 +19,7 @@ class TestTiny(unittest.TestCase):
 class TestActedTogether(unittest.TestCase):
     def setUp(self):
         """ Load actor/movie database """
-        filename = fileprefix + 'resources/small.json'
+        filename = f'resources/small.json'
         #filename = 'resources/large.json'
         with open(filename, 'r') as f:
             self.data = json.load(f)
@@ -48,7 +46,7 @@ class TestActedTogether(unittest.TestCase):
 class TestBaconNumber(unittest.TestCase):
     def setUp(self):
         """ Load actor/movie database """
-        filename = fileprefix + 'resources/small.json'
+        filename = 'resources/small.json'
         with open(filename, 'r') as f:
             self.data = json.load(f)
 
@@ -83,9 +81,9 @@ class TestBaconNumber(unittest.TestCase):
 class TestActorPath(unittest.TestCase):
     def setUp(self):
         """ Load actor/movie database """
-        with open(fileprefix + 'resources/small.json', 'r') as f:
+        with open('resources/small.json', 'r') as f:
             self.db_small = json.load(f)
-        with open(fileprefix + 'resources/large.json', 'r') as f:
+        with open('resources/large.json', 'r') as f:
             self.db_large = json.load(f)
 
     def test_06(self):
@@ -142,9 +140,9 @@ class TestBaconPath(unittest.TestCase):
     """
     def setUp(self):
         """ Load actor/movie database """
-        with open(fileprefix + 'resources/small.json', 'r') as f:
+        with open('resources/small.json', 'r') as f:
             self.db_small = json.load(f)
-        with open(fileprefix + 'resources/large.json', 'r') as f:
+        with open('resources/large.json', 'r') as f:
             self.db_large = json.load(f)
 
     def test_10(self):
