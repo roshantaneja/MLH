@@ -38,6 +38,7 @@ def get_actors_with_bacon_number(data, n):
 
 
 def get_bacon_path(data, actor_id):
+    raise NotImplementedError("Implement me!")
     
 
 def get_path(data, actor_id_1, actor_id_2):
