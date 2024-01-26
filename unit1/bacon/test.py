@@ -224,9 +224,6 @@ class TestActorPath(unittest.TestCase):
         result = lab.actor_path(self.name_to_id, input)
         self.assertEqual(result, expected)
 
-class TestMoviePath(unittest.TestCase):
-    
-
 
 def valid_path(d, p):
     x = {frozenset(i[:-1]) for i in d}
