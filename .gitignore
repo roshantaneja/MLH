@@ -1,6 +1,6 @@
 **/.DS_Store
-**/.vscode/**
-**/.idea/**
-**/MACOSX/**
+**/.vscode/
+**/.idea/
+**/MACOSX/
 
-**/__pycache__/**
+**/__pycache__/
