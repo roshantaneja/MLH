@@ -26,18 +26,48 @@ def makeBoard(cars):
 
 def getSuccessors(board):
     cars = makeCars(board)
+    successors = []
     for car in cars:
-        if cars[car[0][0]] == cars[1][0]:
-            #its horizonal
-            return True
+        if cars[car][0][0] == cars[car][1][0]:
+            # horizontal
+            possible_left = board[car[0][0]][car[0][1] - 1] == -1
+            possible_right = board[car[0][0]][car[-1][1] + 1] == -1
+
+            if possible_left:
+                new_cars = cars.copy()
+                for section in new_cars[car]:
+                    section[1] -= 1
+                successors.append(makeBoard(new_cars))
+
+            if possible_right:
+                new_cars = cars.copy()
+                for section in new_cars[car]:
+                    section[1] += 1
+                successors.append(makeBoard(new_cars))
+        else:
+            #vertical
+            possible_up = board[car[0][0] - 1][car[0][1]] == -1
+            possible_down = board[car[-1][0] + 1][car[0][1]] == -1
+
+            if possible_up:
+                new_cars = cars.copy()
+                for section in new_cars[car]:
+                    section[0] -= 1
+                successors.append(makeBoard(new_cars))
             
+            if possible_down:
+                new_cars = cars.copy()
+                for section in new_cars[car]:
+                    section[0] += 1
+                successors.append(makeBoard(new_cars))
+
+        
+
+    return successors
 
 def goalTest(board):
-    '''
-    The red car (car idNum 0) must take up locations 
-    (2,4) and (2,5) to be a "finished" search.
-    '''
-    pass
+    cars = makeCars(board)
+    return cars[0] == [(2, 4), (2, 5)]
 
 def BFS(start):
     '''
@@ -48,6 +78,18 @@ def BFS(start):
     the path to the solution AND the number of nodes that were expanded
     to find it, in that order.
     '''
+    q = [(start, [])]
+    visited = set()
+    while q:
+        cur, path = q.pop(0)
+        if goalTest(cur):
+            return path, len(visited)
+        visited.add(cur)
+        for s in getSuccessors(cur):
+            if s not in visited:
+                q.append((s, path + [s]))
+    
+    
     pass
 
 def astarDistToExit(start):
@@ -111,7 +153,7 @@ if __name__=="__main__":
     board = makeBoard(cars)
     plot(board)
 
-    # # uncomment for successors!
-    # successors = getSuccessors(board)
-    # plotSuccessors(board, successors)
+    # uncomment for successors!
+    successors = getSuccessors(board)
+    plotSuccessors(board, successors)
     plt.show()
