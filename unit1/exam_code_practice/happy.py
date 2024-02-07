@@ -30,7 +30,22 @@ either.
 '''
 
 def pathToHappiness(field):
-	pass
+	m = len(field)
+	n = len(field[0])
+
+
+	q = [((r, 0), []) for r in range(m)]
+	print (q)
+
+	while q:
+		loc, path = q.pop(0)
+		r, c = loc
+		path.append(r)
+		if c == n-1:
+			return path
+
 
 if __name__=="__main__":
-	pass
+	field = ((100, 3, 5), 
+			 (2,   4, 6))
+	print(pathToHappiness(field)) # [1, 0, 0]
