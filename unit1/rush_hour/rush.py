@@ -61,8 +61,6 @@ def getSuccessors(board):
                     section[0] += 1
                 successors.append(makeBoard(new_cars))
 
-        
-
     return successors
 
 def goalTest(board):
@@ -89,7 +87,7 @@ def BFS(start):
             if s not in visited:
                 q.append((s, path + [s]))
     
-    
+
     pass
 
 def astarDistToExit(start):
