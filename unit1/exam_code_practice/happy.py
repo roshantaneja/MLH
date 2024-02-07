@@ -32,20 +32,24 @@ either.
 def pathToHappiness(field):
 	m = len(field)
 	n = len(field[0])
-
-
-	q = [((r, 0), []) for r in range(m)]
-	print (q)
+	q = PriorityQueue()
+	for r in range(m):
+		q.push((r, field[r][0], [r]), field[r][0])
 
 	while q:
-		loc, path = q.pop(0)
-		r, c = loc
-		path.append(r)
-		if c == n-1:
+		row, cost, path = q.pop()
+		if len(path) == n:
 			return path
+		for dr in [-1, 0, 1]:
+			if 0 <= row + dr < m:
+				q.push((row + dr, field[row + dr][len(path)], path + [row + dr]), cost + field[row + dr][len(path)])
+	
+	return None
 
 
 if __name__=="__main__":
-	field = ((100, 3, 5), 
-			 (2,   4, 6))
-	print(pathToHappiness(field)) # [1, 0, 0]
+
+	field = ((100, 3, 5),
+		  	 (2,   4, 6))
+
+	print(pathToHappiness(field))
