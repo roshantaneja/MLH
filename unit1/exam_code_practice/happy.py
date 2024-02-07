@@ -30,7 +30,26 @@ either.
 '''
 
 def pathToHappiness(field):
-	pass
+	m = len(field)
+	n = len(field[0])
+	q = PriorityQueue()
+	for r in range(m):
+		q.push((r, field[r][0], [r]), field[r][0])
+
+	while q:
+		row, cost, path = q.pop()
+		if len(path) == n:
+			return path
+		for dr in [-1, 0, 1]:
+			if 0 <= row + dr < m:
+				q.push((row + dr, field[row + dr][len(path)], path + [row + dr]), cost + field[row + dr][len(path)])
+	
+	return None
+
 
 if __name__=="__main__":
-	pass
+
+	field = ((100, 3, 5),
+		  	 (2,   4, 6))
+
+	print(pathToHappiness(field))
