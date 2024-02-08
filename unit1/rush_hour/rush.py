@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 
 from helper import *
 from util import *
+from copy import deepcopy
 
 def makeCars(board):
     car_dict = {}
@@ -30,42 +31,53 @@ def getSuccessors(board):
     for car in cars:
         if cars[car][0][0] == cars[car][1][0]:
             # horizontal
-            possible_left = board[car[0][0]][car[0][1] - 1] == -1
-            possible_right = board[car[0][0]][car[-1][1] + 1] == -1
+
+            possible_left = False
+            possible_right = False
+
+            if cars[car][0][1] != 0:
+                possible_left = board[cars[car][0][0]][cars[car][0][1] - 1] == -1
+            if cars[car][-1][1] != 5:
+                possible_right = board[cars[car][-1][0]][cars[car][-1][1] + 1] == -1
 
             if possible_left:
-                new_cars = cars.copy()
-                for section in new_cars[car]:
-                    section[1] -= 1
+                new_cars = copyCars(cars)
+                for i in range(len(new_cars[car])):
+                    new_cars[car][i] = (new_cars[car][i][0], new_cars[car][i][1] - 1)
                 successors.append(makeBoard(new_cars))
 
             if possible_right:
-                new_cars = cars.copy()
-                for section in new_cars[car]:
-                    section[1] += 1
+                new_cars = copyCars(cars)
+                for i in range(len(new_cars[car])):
+                    new_cars[car][i] = (new_cars[car][i][0], new_cars[car][i][1] + 1)
                 successors.append(makeBoard(new_cars))
         else:
             #vertical
-            possible_up = board[car[0][0] - 1][car[0][1]] == -1
-            possible_down = board[car[-1][0] + 1][car[0][1]] == -1
+
+            possible_up = False
+            possible_down = False
+
+            if cars[car][0][0] != 0:
+                possible_up = board[cars[car][0][0] - 1][cars[car][0][1]] == -1
+            if cars[car][-1][0] != 5:
+                possible_down = board[cars[car][-1][0] + 1][cars[car][0][1]] == -1
 
             if possible_up:
-                new_cars = cars.copy()
-                for section in new_cars[car]:
-                    section[0] -= 1
+                new_cars = copyCars(cars)
+                for i in range(len(new_cars[car])):
+                    new_cars[car][i] = (new_cars[car][i][0] - 1, new_cars[car][i][1])
                 successors.append(makeBoard(new_cars))
             
             if possible_down:
-                new_cars = cars.copy()
-                for section in new_cars[car]:
-                    section[0] += 1
+                new_cars = copyCars(cars)
+                for i in range(len(new_cars[car])):
+                    new_cars[car][i] = (new_cars[car][i][0] + 1, new_cars[car][i][1])
                 successors.append(makeBoard(new_cars))
 
     return successors
 
 def goalTest(board):
-    cars = makeCars(board)
-    return cars[0] == [(2, 4), (2, 5)]
+    return board[2][5] == 0 and board[2][4] == 0
 
 def BFS(start):
     '''
@@ -76,19 +88,22 @@ def BFS(start):
     the path to the solution AND the number of nodes that were expanded
     to find it, in that order.
     '''
-    q = [(start, [])]
+    q = [(start, [start])]
     visited = set()
     while q:
         cur, path = q.pop(0)
+        string_state = getStringBoard(cur)
         if goalTest(cur):
             return path, len(visited)
-        visited.add(cur)
+        if string_state in visited:
+            continue
+        visited.add(string_state)
         for s in getSuccessors(cur):
-            if s not in visited:
+            if getStringBoard(s) not in visited:
                 q.append((s, path + [s]))
-    
+    return None
+        
 
-    pass
 
 def astarDistToExit(start):
     '''
