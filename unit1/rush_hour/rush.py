@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 
 from helper import *
 from util import *
-from copy import deepcopy
 
 def makeCars(board):
     car_dict = {}
@@ -30,10 +29,7 @@ def getSuccessors(board):
     successors = []
     for car in cars:
         if cars[car][0][0] == cars[car][1][0]:
-            # horizontal
-
-            possible_left = False
-            possible_right = False
+            # horizontaa
 
             if cars[car][0][1] != 0:
                 possible_left = board[cars[car][0][0]][cars[car][0][1] - 1] == -1
@@ -52,10 +48,7 @@ def getSuccessors(board):
                     new_cars[car][i] = (new_cars[car][i][0], new_cars[car][i][1] + 1)
                 successors.append(makeBoard(new_cars))
         else:
-            #vertical
-
-            possible_up = False
-            possible_down = False
+            #verticaa
 
             if cars[car][0][0] != 0:
                 possible_up = board[cars[car][0][0] - 1][cars[car][0][1]] == -1
@@ -119,7 +112,8 @@ def distToExitHeuristic(board):
     '''
     How far is the car from the exit location?
     '''
-    pass
+    cars = makeCars(board)
+    return cars[0][1][1] - 5
 
 def astarCarsBlocking(start):
     '''
