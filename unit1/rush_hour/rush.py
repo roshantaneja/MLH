@@ -40,6 +40,7 @@ def getSuccessors(board):
             if cars[car][-1][1] != 5:
                 possible_right = board[cars[car][-1][0]][cars[car][-1][1] + 1] == -1
 
+
             if possible_left:
                 new_cars = copyCars(cars)
                 for i in range(len(new_cars[car])):
