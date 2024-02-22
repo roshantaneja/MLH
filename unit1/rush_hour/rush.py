@@ -119,13 +119,28 @@ def astarDistToExit(start):
     the path to the solution AND the number of nodes that were expanded
     to find it, in that order.
     '''
-    pass
+    q = [(start, [start], 0)]
+    visited = set()
+    while q:
+        cur, path, cost = q.pop(0)
+        string_state = getStringBoard(cur)
+        if goalTest(cur):
+            return path, len(visited)
+        if string_state in visited:
+            continue
+        visited.add(string_state)
+        for s in getSuccessors(cur):
+            if getStringBoard(s) not in visited:
+                q.append((s, path + [s], cost + 1))
+        q.sort(key=lambda x: cost + distToExitHeuristic(x[0]))
+    return None
 
 def distToExitHeuristic(board):
     '''
     How far is the car from the exit location?
     '''
-    pass
+    cars = makeCars(board)
+    return 6 - cars[0][1][1]
 
 def astarCarsBlocking(start):
     '''
@@ -135,7 +150,21 @@ def astarCarsBlocking(start):
     the path to the solution AND the number of nodes that were expanded
     to find it, in that order.
     '''
-    pass
+    q = [(start, [start], 0)]
+    visited = set()
+    while q:
+        cur, path, cost = q.pop(0)
+        string_state = getStringBoard(cur)
+        if goalTest(cur):
+            return path, len(visited)
+        if string_state in visited:
+            continue
+        visited.add(string_state)
+        for s in getSuccessors(cur):
+            if getStringBoard(s) not in visited:
+                q.append((s, path + [s], cost + 1))
+        q.sort(key=lambda x: cost + carsBlockingHeuristic(x[0]))
+    return None
 
 def carsBlockingHeuristic(board):
     """
@@ -144,7 +173,13 @@ def carsBlockingHeuristic(board):
     h(B) = 1 if the red car is not at the goal but there's nothing in the way when the board is in state S
     h(B) = 2 if the red car is not at the goal and there is at least one car in between it and the goal when the board is in state S
     """
-    pass
+    cars = makeCars(board)
+    red_car = cars[0]
+    blocking = 0
+    for i in range(red_car[1][1] + 1, 6):
+        if board[red_car[1][0]][i] != -1:
+            blocking += 1
+    return blocking
 
 def astarYourHeuristic(start):
     '''
@@ -154,7 +189,21 @@ def astarYourHeuristic(start):
     the path to the solution AND the number of nodes that were expanded
     to find it, in that order.
     '''
-    pass
+    q = [(start, [start], 0)]
+    visited = set()
+    while q:
+        cur, path, cost = q.pop(0)
+        string_state = getStringBoard(cur)
+        if goalTest(cur):
+            return path, len(visited)
+        if string_state in visited:
+            continue
+        visited.add(string_state)
+        for s in getSuccessors(cur):
+            if getStringBoard(s) not in visited:
+                q.append((s, path + [s], cost + 1))
+        q.sort(key=lambda x: cost + myHeuristic(x[0]))
+    return None
 
 def myHeuristic(board):
     '''
@@ -164,7 +213,7 @@ def myHeuristic(board):
     blocking heuristic? How can you improve on the distance to exit heuristic?
     Time to be creative :)
     '''
-    pass
+    return carsBlockingHeuristic(board) + distToExitHeuristic(board)
 
 
 if __name__=="__main__":
