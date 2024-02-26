@@ -137,7 +137,7 @@ def astarDistToExit(start):
 
 def distToExitHeuristic(board):
     '''
-    How far is the car from the exit location?
+    How far is the car from the exit location?-09
     '''
     cars = makeCars(board)
     return 6 - cars[0][1][1]

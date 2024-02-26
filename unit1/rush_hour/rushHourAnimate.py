@@ -5,7 +5,10 @@ from rush import *
 from helper import *
 
 # SET THIS to whatever you want to use to solve
-solver = astarYourHeuristic
+# solver = astarYourHeuristic
+solver = astarDistToExit
+
+
 
 # SET THIS to the file you want to look at
 filename = "jams/40.txt"
