@@ -26,44 +26,40 @@ def makeMove(p1side, p2side, player, move):
 	
 	# Get the number of stones in the chosen pit
 	
-	stones = own_side[move]
+	hand = own_side[move]
 	own_side[move] = 0
 
-	# Place the stones in the pits, one by one, going counter-clockwise
-
-	while stones > 0:
-		move = (move + 1) % 14
-		if move == 6:
-			if player == 1:
-				own_side[6] += 1
-			else:
-				move = (move + 1) % 14
-				own_side[move] += 1
-		else:
-			own_side[move] += 1
-		stones -= 1
-
-	# If the last stone was placed in an empty pit on the player's side
-	# and the opposite pit has stones in it, capture the stones and the
-	# one in the empty pit and place them in the player's Mancala
-		
-	if move < 6 and own_side[move] == 1 and other_side[5 - move] > 0:
-		own_side[6] += other_side[5 - move] + 1
-		own_side[move] = 0
-		other_side[5 - move] = 0
-		return False
-	else:
-		return move == 6
-
-
-
-			
-		
-
-
+	# Place the stones in the pits, one by one, counter-clockwise
+	# If the player is on their own side, they should skip the other player's Mancala
 	
+	current_side = own_side
+	current_pit = move + 1
 
+	while hand > 0:
+		if current_pit == 6 and current_side == other_side:
+			current_pit = 0
+			current_side = own_side
+		if current_pit == 7 and current_side == own_side:
+			current_pit = 0
+			current_side = other_side
 		
+		
+		current_side[current_pit] += 1
+		hand -= 1
+		current_pit += 1
+	
+	# If the player ends their turn in an empty pit on their own side, and the opposite pit has stones in it, capture them
+
+	if current_side == own_side and current_pit < 6 and current_side[current_pit] == 1 and other_side[5-current_pit] > 0:
+		own_side[6] += other_side[5-current_pit] + 1
+		other_side[5-current_pit] = 0
+		current_side[current_pit] = 0
+		current_side[6] += 1
+
+	if current_pit == 7 and current_side == own_side:
+		return True
+	elif current_pit == 6 and current_side == other_side:
+		return False
 
 def getAllPossibleMoves(p1side, p2side, player):
 	'''
@@ -125,7 +121,7 @@ def displayBoard(p1side, p2side):
     for pit in p2side[:-1][::-1]+p2side[-1:]+p1side[-1:]+p1side[:-1]:
         numSeedsInThisPit = str(pit).rjust(2)
         seedAmounts.append(numSeedsInThisPit)
-    print(seedAmounts)
+    # print(seedAmounts)
     print("""
         +------+------+--<<<<<-Player 2----+------+------+------+
         P      |5     |4     |3     |2     |1     |0     |      P
