@@ -8,7 +8,7 @@ from mancalaPlayers import *
 # other, set each to be the name of the function, maybe
 # player1 = instantMovePlayer and player2 = minimaxPlayer.
 
-player1 = instantMovePlayer
+player1 = roshan_player
 player2 = minimaxPlayer
 
 p1side = [4, 4, 4, 4, 4, 4, 0]
